@@ -11,7 +11,8 @@ namespace MyFirstWebApplicationUsingControllers.Models
         public Record(int value, int time = -1)
         {
             Value = value;
-            Time = time == -1 ? DateTime.Now.Hour * 3600 + DateTime.Now.Minute * 60 + DateTime.Now.Second : time;
+            var now = DateTime.Now;
+            Time = time == -1 ? now.Hour * 3600 + now.Minute * 60 + now.Second : time;
         }
     }
 }

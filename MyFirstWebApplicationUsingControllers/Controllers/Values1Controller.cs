@@ -21,9 +21,12 @@ namespace MyFirstWebApplicationUsingControllers.Controllers
         }
         // GET api/values1
         [HttpGet]
-        public JsonResult Get([FromBody] GetRequest value)
+        public object Get([FromBody] GetRequest value)
         {
-            return Json(_dataWorker.GetSum(value.From, value.Till));
+            return new
+            {
+                Sum = _dataWorker.GetSum(value.From, value.Till)
+            };
         }
 
         // POST api/values1
@@ -32,6 +35,10 @@ namespace MyFirstWebApplicationUsingControllers.Controllers
         {
             _dataWorker.AddData(value.Value);
         }
-        public class PostRequest { public int Value { get; set; } }
+
+        public class PostRequest
+        {
+            public int Value { get; set; }
+        }
     }
 }
