@@ -6,7 +6,7 @@ namespace MyFirstWebApplicationUsingControllers
     {
         protected override void Load(ContainerBuilder builder)
         {
-            builder.RegisterType<Services.JsonFileWorker>().As<Services.IDataWorker>();
+            builder.RegisterType<Services.DbWorker>().As<Services.IDataWorker>();
         }
     }
 }

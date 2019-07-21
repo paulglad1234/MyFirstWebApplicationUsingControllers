@@ -4,8 +4,9 @@ namespace MyFirstWebApplicationUsingControllers.Models
 {
     public class Record
     {
-        public int Value { get; }
-        public int Time { get; }
+        public int RecordId { get; set; }
+        public int Value { get; set; }
+        public int Time { get; set; }
 
         public Record(int value, int time = -1)
         {

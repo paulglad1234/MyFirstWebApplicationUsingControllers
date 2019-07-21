@@ -2,19 +2,27 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MyFirstWebApplicationUsingControllers.Models;
 
 namespace MyFirstWebApplicationUsingControllers.Services
 {
-    public class DbWorker : IDataWorker
+    public class DbWorker : AbstractDataWorker
     {
-        public void AddData(int value)
+        private RecordContext _db;
+
+        public DbWorker(RecordContext context)
         {
-            
+            _db = context;
+        }
+        public override void AddData(int value)
+        {
+            _db.Records.Add(new Record(value));
+            _db.SaveChanges();
         }
 
-        public int GetSum(int from, int till)
+        public override int GetSum(int from, int till)
         {
-            return 0;
+            return GetSum(from, till, _db.Records.ToList());
         }
     }
 }

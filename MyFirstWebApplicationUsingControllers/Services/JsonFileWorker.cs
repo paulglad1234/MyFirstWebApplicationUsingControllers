@@ -6,10 +6,10 @@ using Newtonsoft.Json;
 
 namespace MyFirstWebApplicationUsingControllers.Services
 {
-    public class JsonFileWorker : IDataWorker
+    public class JsonFileWorker : AbstractDataWorker
     {
         private const string Filename = "values.json";
-        public void AddData(int value)
+        public override void AddData(int value)
         {
             ClearFileIfNewDayStarted();
             using (var streamWriter = new StreamWriter(Filename, true))
@@ -18,21 +18,10 @@ namespace MyFirstWebApplicationUsingControllers.Services
             }
         }
 
-        public int GetSum(int from, int till)
+        public override int GetSum(int from, int till)
         {
             ClearFileIfNewDayStarted();
-            var json = ReadJson();
-            var fromIndex = FindFromIndex(from, json);
-            var tillIndex = FindTillIndex(till, json);
-            if (fromIndex == -1 || tillIndex == -1)
-                return 0;
-            var result = 0;
-            for (var i = fromIndex; i <= tillIndex; i++)
-            {
-                result += json[i].Value;
-            }
-
-            return result;
+            return GetSum(from, till, ReadJson());
         }
 
         private static void ClearFileIfNewDayStarted()
@@ -66,34 +55,6 @@ namespace MyFirstWebApplicationUsingControllers.Services
             }
 
             return json;
-        }
-
-        private static int FindFromIndex(int from, List<Record> json)
-        {
-            if (json[0].Time >= from)
-                return 0;
-            for (var i = 1; i < json.Count; i++)
-            {
-                if (json[i - 1].Time < from && from <= json[i].Time)
-                    return i;
-            }
-
-            return -1;
-        }
-
-        private static int FindTillIndex(int till, List<Record> json)
-        {
-            var lastIndex = json.Count - 1;
-            if (lastIndex != 0)
-                if (json[lastIndex].Time <= till)
-                    return lastIndex;
-            for (var i = 0; i < lastIndex; i++)
-            {
-                if (json[i].Time <= till && till < json[i + 1].Time)
-                    return i;
-            }
-
-            return -1;
         }
     }
 }
